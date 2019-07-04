@@ -17,3 +17,16 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(GSEABaseReplacement)
 ```
+
+
+```{r}
+library("GSEABase")
+a <- lapply(ls("package:GSEABase"), example, package = "GSEABase", character.only = TRUE, echo = FALSE, verbose = FALSE, ask = FALSE, give.lines = TRUE)
+
+b <- a[lengths(a) != 0]
+eval(parse(text = b[[1]]))
+d <- lapply(b, function(x){!grepl("^#|^$", x)})
+summary(unlist(d)) # Lines of code 1388
+e <- lapply(seq_along(b), function(x){b[[x]][d[[x]]]})
+```
+
