@@ -21,4 +21,7 @@ Remotes:
     Kayla-Morrell/GeneSet@BiocSet,
     kevinrue/uniset
 Imports: 
-    GSEABase
+    GSEABase,
+    BaseSet,
+    unisets,
+    BiocSet
