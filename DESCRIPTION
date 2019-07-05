@@ -18,7 +18,7 @@ Suggests:
 VignetteBuilder: knitr
 Remotes:
     llrs/BaseSet,
-    Kayla-Morrell/GeneSet@BiocSet
+    Kayla-Morrell/GeneSet@BiocSet,
     kevinrue/uniset
 Imports: 
     GSEABase
