@@ -1,0 +1,60 @@
+---
+title: "BaseSet"
+output: BiocStyle::html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library("BaseSet")
+a <- lapply(ls("package:BaseSet"), example, package = "BaseSet", 
+            character.only = TRUE, echo = FALSE, verbose = FALSE, 
+            ask = FALSE, give.lines = TRUE, run.donttest = TRUE)
+
+b <- a[lengths(a) != 0]
+d <- lapply(b, function(x){!grepl("^#|^$", x)})
+summary(unlist(d)) # Lines of code 371
+e <- lapply(seq_along(b), function(x){b[[x]][d[[x]]]})
+```
+
+
+
+# Vince's comments
+
+## ease of import of popular curated gene sets
+```{r}
+h <- BaseSet::getGMT("h.all.v6.2.symbols.gmt")
+h
+set_names(h)
+```
+
+
+## concept of "gene set collection" 
+Do we want to preserve it? clearly msigdb implements the concept and that is a plus.
+
+```{r}
+set_size(h)
+```
+
+## manage metadata about collections 
+
+```{r}
+sets(h)
+```
+
+## support identifier conversions
+```{r}
+h2 <- mutate_element(h,
+    element = AnnotationDbi::mapIds(org.Hs.eg.db, keys = as.character(elements), 
+                                    column = "ENSEMBL", keytype = "SYMBOL"))
+head(h2)
+```
+
+# relationships to ontologies 

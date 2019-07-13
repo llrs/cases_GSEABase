@@ -1,0 +1,62 @@
+---
+title: "GSEABase"
+output: BiocStyle::html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r}
+library("GSEABase", quietly = TRUE, warn.conflicts = FALSE)
+a <- lapply(ls("package:GSEABase"), example, package = "GSEABase", 
+            character.only = TRUE, echo = FALSE, verbose = FALSE, 
+            ask = FALSE, give.lines = TRUE, run.donttest = TRUE)
+
+b <- a[lengths(a) != 0]
+d <- lapply(b, function(x){!grepl("^#|^$", x)})
+summary(unlist(d)) # Lines of code 1388
+e <- lapply(seq_along(b), function(x){b[[x]][d[[x]]]})
+```
+
+
+# Vince's comments
+
+## ease of import of popular curated gene sets
+```{r}
+h <- getGmt("h.all.v6.2.symbols.gmt")
+h
+names(h)
+```
+
+
+## concept of "gene set collection" 
+Do we want to preserve it? clearly msigdb implements the concept and that is a plus.
+
+```{r}
+sapply(h, function(x)length(geneIds(x)))
+```
+
+## manage metadata about collections 
+
+```{r}
+details(h[[1]])
+```
+
+## support identifier conversions
+```{r}
+fl <- system.file("extdata", "Broad1.xml", package = "GSEABase")
+bgs <- GeneSet(BroadCollection(), urls = fl)
+bgs1 <- mapIdentifiers(bgs, AnnotationIdentifier("hgu95av2"))
+bgs1
+bgs2 <- mapIdentifiers(bgs, RefseqIdentifier("org.Hs.eg.db"))
+bgs2
+```
+
+# relationships to ontologies 
